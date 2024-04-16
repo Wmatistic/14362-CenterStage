@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import static org.firstinspires.ftc.teamcode.subsystems.RobotState.*;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.*;
@@ -12,6 +14,8 @@ public class Robot {
     public IntakeSlides intakeSlides;
     public Drivetrain drivetrain;
 
+    private RobotState state;
+
     Telemetry telemetry;
 
     public Robot(HardwareMap hardwareMap, Telemetry telemetry){
@@ -20,5 +24,15 @@ public class Robot {
         intake = new Intake(hardwareMap);
         intakeSlides = new IntakeSlides(hardwareMap);
         drivetrain = new Drivetrain(hardwareMap);
+
+        state = INTAKING;
+    }
+
+    public void setState(RobotState state){
+        this.state = state;
+    }
+
+    public RobotState getState(){
+        return state;
     }
 }

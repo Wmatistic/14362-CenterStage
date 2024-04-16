@@ -5,12 +5,24 @@ import com.acmerobotics.dashboard.config.Config;
 public class RobotConstants {
     @Config
     public static class Intake {
-        // put intake constants here
+        public static String armServoOne = "armServoOne";
+        public static String armServoTwo = "armServoTwo";
+
+        public static double ARM_GROUND = 0;
+        public static double ARM_LOADED = 0;
+        public static double ARM_TRANSFERRING = 0;
+
+        public static double TRAY_TRANSFERRING = 0;
+        public static double TRAY_HANDOFF = 0;
     }
 
     @Config
     public static class IntakeSlides {
-        // put intake slide constants
+        public static int STOWED = 0;
+        public static int HALF = 0;
+        public static int FULL = 0;
+
+        public static double MANUAL_ADJUSTMENT_MULT = 50;
     }
 
     @Config

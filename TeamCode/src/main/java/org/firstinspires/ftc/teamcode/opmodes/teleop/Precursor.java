@@ -10,7 +10,10 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.subsystems.Intake.IntakeSlidesState;
+import org.firstinspires.ftc.teamcode.subsystems.Intake.IntakeState;
 import org.firstinspires.ftc.teamcode.subsystems.Robot;
+import org.firstinspires.ftc.teamcode.subsystems.RobotState;
 
 @Config
 public class Precursor extends OpMode {
@@ -38,15 +41,121 @@ public class Precursor extends OpMode {
     @Override
     public void loop() {
 
+        /* ************************************ TELEMETRY ************************************ */
+
         telemetry.addLine("STATUS: !!!!!!!!");
         telemetry.update();
+
+        /* ************************************ METHOD CALLS ************************************ */
 
         driver.readButtons();
         operator.readButtons();
 
         robot.drivetrain.drive(driver);
 
+        // LOOP THROUGH STATES TO UPDATE
+        robot.intake.setState(robot.intake.getState());
+        robot.intakeSlides.setState(robot.intakeSlides.getState());
+
+
+        /* ************************************ CONTROL ************************************ */
+
+        /*
+        BUTTON LAYOUT:
+
+            DRIVER:
+                DEFAULT LAYER:
+                    Y -> RECENTER GYRO
+                    X ->
+                    A ->
+                    B ->
+
+                    Right Bumper ->
+                    Left Bumper ->
+
+                    Right Trigger ->
+                    Left Trigger ->
+
+                    Dpad Up ->
+                    Dpad Right ->
+                    Dpad Down ->
+                    Dpad Left ->
+
+                    Left Stick X -> Translational Movement
+                    Left Stick Y -> Translational Movement
+                    Right Stick X -> Rotational Movement
+                    Right Stick Y ->
+
+                    Right Stick Button ->
+                    Left Stick Button ->
+
+                    TouchPad ->
+
+                INTAKE LAYER:
+                    Y -> RECENTER GYRO
+                    X ->
+                    A ->
+                    B ->
+
+                    Right Bumper ->
+                    Left Bumper ->
+
+                    Right Trigger ->
+                    Left Trigger ->
+
+                    Dpad Up -> Slides extend to full and intake activates
+                    Dpad Right -> Slides extend to half and intake activates
+                    Dpad Down -> Intake activates
+                    Dpad Left ->
+
+                    Left Stick X -> Translational Movement
+                    Left Stick Y -> Translational Movement
+                    Right Stick X -> Rotational Movement
+                    Right Stick Y ->
+
+                    Right Stick Button ->
+                    Left Stick Button ->
+
+                    TouchPad ->
+
+         */
+
+        /*              ***************** GLOBAL CONTROLS *****************             */
+
         // RECENTER GYRO
         if(driver.wasJustPressed(GamepadKeys.Button.Y)){ robot.drivetrain.resetHeading(); }
+
+        /*              ************* STATE SPECIFIC CONTROLS **************             */
+
+        switch(robot.getState()){
+
+            case INTAKING:
+
+                if(driver.wasJustPressed(GamepadKeys.Button.DPAD_UP)){
+                    robot.setState(RobotState.INTAKING);
+                    robot.intake.setState(IntakeState.INTAKING);
+                    robot.intakeSlides.setState(IntakeSlidesState.FULL);
+                }
+
+                break;
+
+            case IDLE:
+
+
+
+                break;
+
+            case OUTTAKING:
+
+
+
+                break;
+
+            case HANGING:
+
+
+
+                break;
+        }
     }
 }
