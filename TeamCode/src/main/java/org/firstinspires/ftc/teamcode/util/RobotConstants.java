@@ -18,6 +18,9 @@ public class RobotConstants {
 
     @Config
     public static class IntakeSlides {
+        public static String motorA = "motorA";
+        public static String motorB = "motorB";
+
         public static int STOWED = 0;
         public static int HALF = 0;
         public static int FULL = 0;
