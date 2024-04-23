@@ -147,6 +147,18 @@ public class Precursor extends OpMode {
                     robot.intakeSlides.setState(IntakeSlidesState.FULL);
                 }
 
+                if(driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
+                    robot.setState(RobotState.INTAKING);
+                    robot.intake.setState(IntakeState.INTAKING);
+                    robot.intakeSlides.setState(IntakeSlidesState.HALF);
+                }
+
+                if(driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)){
+                    robot.setState(RobotState.INTAKING);
+                    robot.intake.setState(IntakeState.INTAKING);
+                    robot.intakeSlides.setState(IntakeSlidesState.STOWED);
+                }
+
                 break;
 
             case IDLE:
