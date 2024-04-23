@@ -30,10 +30,10 @@ public class RobotConstants {
 
     @Config
     public static class Drivetrain {
-        public static String LFMOTOR = "leftFront";
-        public static String LRMOTOR = "leftRear";
-        public static String RFMOTOR = "rightFront";
-        public static String RRMOTOR = "rightRear";
+        public static String LFMOTOR = "frontLeft";
+        public static String LRMOTOR = "backLeft";
+        public static String RFMOTOR = "frontRight";
+        public static String RRMOTOR = "backRight";
 
         public static double DEFAULT_SPEED = 1.0;
         public static double SLOW_SPEED = 0.5;

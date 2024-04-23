@@ -3,14 +3,17 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.arcrobotics.ftclib.command.Subsystem;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.RevIMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.*;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.util.RobotConstants;
 
 public class Drivetrain implements Subsystem{
 
     private DcMotorEx leftFront, leftRear, rightFront, rightRear;
     double x, y, rx, leftFrontPower, leftRearPower, rightFrontPower, rightRearPower, heading, rotX, rotY;
-    private RevIMU imu;
+    private IMU imu;
     private Mode mode;
     private double speed = RobotConstants.Drivetrain.DEFAULT_SPEED;
 
@@ -25,19 +28,27 @@ public class Drivetrain implements Subsystem{
         leftRear.setDirection(DcMotorEx.Direction.REVERSE);
         leftFront.setDirection(DcMotorEx.Direction.REVERSE);
 
-        imu = new RevIMU(hardwareMap);
-        imu.init();
+        imu = hardwareMap.get(IMU.class, "imu");
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP
+        ));
+        imu.initialize(parameters);
+
         mode = Mode.ROBOT;
     }
 
     public void drive(GamepadEx gamepad) {
-        x = Math.pow(gamepad.getLeftX(), 3);
-        y = Math.pow(gamepad.getLeftY() * 1.1, 3);
-        rx = Math.pow(gamepad.getRightX(), 3);
+        //x = Math.pow(gamepad.getLeftX(), 3);
+        //y = Math.pow(gamepad.getLeftY() * 1.1, 3);
+        //rx = Math.pow(gamepad.getRightX()*1.5, 3);
+        x = gamepad.getLeftX();
+        y = gamepad.getLeftY() * 1.1;
+        rx = gamepad.getRightX();
 
         switch (mode) {
             case FIELD:
-                heading = Math.toRadians(-imu.getHeading() + 180);
+                heading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
                 rotX = x * Math.cos(heading) - y * Math.sin(heading);
                 rotY = x * Math.sin(heading) + y * Math.sin(heading);
 
@@ -68,14 +79,22 @@ public class Drivetrain implements Subsystem{
     }
 
     public double getHeading(){
-        return imu.getHeading();
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
     }
 
     public void resetHeading(){
-        imu.reset();
+        imu.resetYaw();
     }
 
-    public void setMode(Mode m){
+    public void changeMode(){
+        if(mode == Mode.ROBOT){
+            mode = Mode.FIELD;
+        } else {
+            mode = Mode.ROBOT;
+        }
+    }
+
+    private void setMode(Mode m){
         mode = m;
     }
 

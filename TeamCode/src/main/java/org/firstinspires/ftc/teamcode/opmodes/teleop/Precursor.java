@@ -14,8 +14,10 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake.IntakeSlidesState;
 import org.firstinspires.ftc.teamcode.subsystems.Intake.IntakeState;
 import org.firstinspires.ftc.teamcode.subsystems.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.RobotState;
+import org.firstinspires.ftc.teamcode.util.RobotConstants;
 
 @Config
+@TeleOp(name = "Precursor", group = "Final")
 public class Precursor extends OpMode {
     private Robot robot;
 
@@ -54,8 +56,8 @@ public class Precursor extends OpMode {
         robot.drivetrain.drive(driver);
 
         // LOOP THROUGH STATES TO UPDATE
-        robot.intake.setState(robot.intake.getState());
-        robot.intakeSlides.setState(robot.intakeSlides.getState());
+        //robot.intake.setState(robot.intake.getState());
+        //robot.intakeSlides.setState(robot.intakeSlides.getState());
 
 
         /* ************************************ CONTROL ************************************ */
@@ -125,8 +127,16 @@ public class Precursor extends OpMode {
         // RECENTER GYRO
         if(driver.wasJustPressed(GamepadKeys.Button.Y)){ robot.drivetrain.resetHeading(); }
 
-        /*              ************* STATE SPECIFIC CONTROLS **************             */
+        if(driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) { robot.drivetrain.changeMode(); }
 
+        if(driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.1) {
+            robot.drivetrain.setSpeed(RobotConstants.Drivetrain.SLOW_SPEED);
+        } else {
+            robot.drivetrain.setSpeed(RobotConstants.Drivetrain.DEFAULT_SPEED);
+        }
+
+        /*              ************* STATE SPECIFIC CONTROLS **************             */
+        /*
         switch(robot.getState()){
 
             case INTAKING:
@@ -157,5 +167,7 @@ public class Precursor extends OpMode {
 
                 break;
         }
+
+         */
     }
 }

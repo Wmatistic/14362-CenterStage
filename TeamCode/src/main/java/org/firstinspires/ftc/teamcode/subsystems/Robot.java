@@ -21,8 +21,8 @@ public class Robot {
     public Robot(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
 
-        intake = new Intake(hardwareMap);
-        intakeSlides = new IntakeSlides(hardwareMap);
+        //intake = new Intake(hardwareMap);
+        //intakeSlides = new IntakeSlides(hardwareMap);
         drivetrain = new Drivetrain(hardwareMap);
 
         state = INTAKING;
