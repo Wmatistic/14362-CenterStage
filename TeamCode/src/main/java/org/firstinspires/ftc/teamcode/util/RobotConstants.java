@@ -21,11 +21,15 @@ public class RobotConstants {
         public static String motorA = "motorA";
         public static String motorB = "motorB";
 
+        public static double POWER = 1.0;
+
         public static int STOWED = 0;
         public static int HALF = 0;
         public static int FULL = 0;
 
         public static double MANUAL_ADJUSTMENT_MULT = 50;
+
+        public static int RANGE = 10;
     }
 
     @Config

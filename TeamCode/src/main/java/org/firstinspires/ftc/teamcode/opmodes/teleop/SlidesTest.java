@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.subsystems.Intake.IntakeSlides;
+import org.firstinspires.ftc.teamcode.subsystems.Intake.IntakeSlidesState;
 
 @Config
 public class SlidesTest extends OpMode {
@@ -22,12 +23,16 @@ public class SlidesTest extends OpMode {
 
         intakeSlides = new IntakeSlides(hardwareMap);
 
+        intakeSlides.setState(IntakeSlidesState.UNPOWERED);
+
         telemetry.addLine("STATUS: INITIALIZED");
         telemetry.update();
     }
 
     @Override
     public void loop() {
-
+        telemetry.addLine("STATUS: !!!!!!!!!!");
+        telemetry.addLine("Slide Motor Ticks: " + intakeSlides.getSlidePosition());
+        telemetry.update();
     }
 }
