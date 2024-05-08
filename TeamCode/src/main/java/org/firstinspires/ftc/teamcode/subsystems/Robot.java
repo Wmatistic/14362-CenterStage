@@ -20,7 +20,7 @@ public class Robot {
 
     Telemetry telemetry;
 
-    public Robot(HardwareMap hardwareMap, Telemetry telemetry){
+    public Robot(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
 
         intake = new Intake(hardwareMap);
@@ -28,18 +28,6 @@ public class Robot {
         drivetrain = new Drivetrain(hardwareMap);
 
         state = INTAKING;
-    }
-
-    public void activateIntake(IntakeSlidesState slidesState){
-        setState(RobotState.INTAKING);
-        intake.setState(IntakeState.INTAKING);
-        intakeSlides.setState(slidesState);
-    }
-
-    public void deactivateIntake(){
-        setState(RobotState.IDLE);
-        intake.setState(IntakeState.IDLE);
-        intakeSlides.setState(IntakeSlidesState.STOWED);
     }
 
     public void setState(RobotState state){

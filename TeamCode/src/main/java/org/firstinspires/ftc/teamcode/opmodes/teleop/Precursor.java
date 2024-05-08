@@ -72,7 +72,7 @@ public class Precursor extends OpMode {
                     A ->
                     B ->
 
-                    Right Bumper ->
+                    Right Bumper HELD -> Switch to intake layer
                     Left Bumper ->
 
                     Right Trigger ->
@@ -99,16 +99,16 @@ public class Precursor extends OpMode {
                     A ->
                     B ->
 
-                    Right Bumper ->
+                    Right Bumper HELD -> Intake activates
                     Left Bumper ->
 
                     Right Trigger ->
                     Left Trigger ->
 
-                    Dpad Up -> Slides extend to full and intake activates
-                    Dpad Right -> Slides extend to half and intake activates
-                    Dpad Down -> Slides retract and Intake activates
-                    Dpad Left -> Slides retract and Intake deactivates
+                    Dpad Up -> Slides extend to full
+                    Dpad Right -> Slides extend to half
+                    Dpad Down -> Slides retract
+                    Dpad Left ->
 
                     Left Stick X -> Translational Movement
                     Left Stick Y -> Translational Movement
@@ -140,29 +140,35 @@ public class Precursor extends OpMode {
 
         switch(robot.getState()){
 
-            case INTAKING:
+            case IDLE:
 
-                if(driver.wasJustPressed(GamepadKeys.Button.DPAD_UP)){
-                    robot.activateIntake(IntakeSlidesState.FULL);
-                }
-
-                if(driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
-                    robot.activateIntake(IntakeSlidesState.HALF);
-                }
-
-                if(driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)){
-                    robot.activateIntake(IntakeSlidesState.STOWED);
-                }
-
-                if(driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)){
-                    robot.deactivateIntake();
+                if(driver.isDown(GamepadKeys.Button.RIGHT_BUMPER)){
+                    robot.setState(RobotState.INTAKING);
                 }
 
                 break;
 
-            case IDLE:
+            case INTAKING:
 
+                if(driver.isDown(GamepadKeys.Button.RIGHT_BUMPER)){
+                    robot.intake.setState(IntakeState.INTAKING);
+                } else {
+                    robot.intake.setState(IntakeState.IDLE);
+                    robot.intakeSlides.setState(IntakeSlidesState.STOWED);
+                    robot.setState(RobotState.IDLE);
+                }
 
+                if(driver.wasJustPressed(GamepadKeys.Button.DPAD_UP)){
+                    robot.intakeSlides.setState(IntakeSlidesState.FULL);
+                }
+
+                if(driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
+                    robot.intakeSlides.setState(IntakeSlidesState.HALF);
+                }
+
+                if(driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)){
+                    robot.intakeSlides.setState(IntakeSlidesState.STOWED);
+                }
 
                 break;
 

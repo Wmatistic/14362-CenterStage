@@ -53,9 +53,9 @@ public class IntakeSlides implements Subsystem{
             case FULL:
 
                 setTargetPosition(RobotConstants.IntakeSlides.FULL);
+                targetState = FULL;
 
                 if(!inRange(getSlidePosition(), targetPosition, RobotConstants.IntakeSlides.RANGE)) {
-                    targetState = FULL;
                     this.state = MOVING;
                 } else {
                     this.state = FULL;
@@ -66,15 +66,26 @@ public class IntakeSlides implements Subsystem{
             case HALF:
 
                 setTargetPosition(RobotConstants.IntakeSlides.HALF);
+                targetState = HALF;
 
                 if(!inRange(getSlidePosition(), targetPosition, RobotConstants.IntakeSlides.RANGE)) {
-                    targetState = HALF;
                     this.state = MOVING;
                 } else {
                     this.state = HALF;
                 }
 
                 break;
+
+            case STOWED:
+
+                setTargetPosition(RobotConstants.IntakeSlides.STOWED);
+                targetState = STOWED;
+
+                if(!inRange(getSlidePosition(), targetPosition, RobotConstants.IntakeSlides.RANGE)) {
+                    this.state = MOVING;
+                } else {
+                    this.state = STOWED;
+                }
 
             case UNPOWERED:
 
