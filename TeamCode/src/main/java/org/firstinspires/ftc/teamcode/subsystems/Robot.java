@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.*;
 import org.firstinspires.ftc.teamcode.subsystems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Intake.IntakeSlides;
+import org.firstinspires.ftc.teamcode.subsystems.Intake.IntakeSlidesState;
+import org.firstinspires.ftc.teamcode.subsystems.Intake.IntakeState;
 
 public class Robot {
 
@@ -21,11 +23,23 @@ public class Robot {
     public Robot(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
 
-        //intake = new Intake(hardwareMap);
-        //intakeSlides = new IntakeSlides(hardwareMap);
+        intake = new Intake(hardwareMap);
+        intakeSlides = new IntakeSlides(hardwareMap);
         drivetrain = new Drivetrain(hardwareMap);
 
         state = INTAKING;
+    }
+
+    public void activateIntake(IntakeSlidesState slidesState){
+        setState(RobotState.INTAKING);
+        intake.setState(IntakeState.INTAKING);
+        intakeSlides.setState(slidesState);
+    }
+
+    public void deactivateIntake(){
+        setState(RobotState.IDLE);
+        intake.setState(IntakeState.IDLE);
+        intakeSlides.setState(IntakeSlidesState.STOWED);
     }
 
     public void setState(RobotState state){

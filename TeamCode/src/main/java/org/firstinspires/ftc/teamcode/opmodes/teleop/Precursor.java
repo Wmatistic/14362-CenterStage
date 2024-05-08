@@ -107,8 +107,8 @@ public class Precursor extends OpMode {
 
                     Dpad Up -> Slides extend to full and intake activates
                     Dpad Right -> Slides extend to half and intake activates
-                    Dpad Down -> Intake activates
-                    Dpad Left ->
+                    Dpad Down -> Slides retract and Intake activates
+                    Dpad Left -> Slides retract and Intake deactivates
 
                     Left Stick X -> Translational Movement
                     Left Stick Y -> Translational Movement
@@ -129,6 +129,7 @@ public class Precursor extends OpMode {
 
         if(driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) { robot.drivetrain.changeMode(); }
 
+        // SLOWDOWN
         if(driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.1) {
             robot.drivetrain.setSpeed(RobotConstants.Drivetrain.SLOW_SPEED);
         } else {
@@ -136,27 +137,25 @@ public class Precursor extends OpMode {
         }
 
         /*              ************* STATE SPECIFIC CONTROLS **************             */
-        /*
+
         switch(robot.getState()){
 
             case INTAKING:
 
                 if(driver.wasJustPressed(GamepadKeys.Button.DPAD_UP)){
-                    robot.setState(RobotState.INTAKING);
-                    robot.intake.setState(IntakeState.INTAKING);
-                    robot.intakeSlides.setState(IntakeSlidesState.FULL);
+                    robot.activateIntake(IntakeSlidesState.FULL);
                 }
 
                 if(driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)){
-                    robot.setState(RobotState.INTAKING);
-                    robot.intake.setState(IntakeState.INTAKING);
-                    robot.intakeSlides.setState(IntakeSlidesState.HALF);
+                    robot.activateIntake(IntakeSlidesState.HALF);
                 }
 
                 if(driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)){
-                    robot.setState(RobotState.INTAKING);
-                    robot.intake.setState(IntakeState.INTAKING);
-                    robot.intakeSlides.setState(IntakeSlidesState.STOWED);
+                    robot.activateIntake(IntakeSlidesState.STOWED);
+                }
+
+                if(driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)){
+                    robot.deactivateIntake();
                 }
 
                 break;
@@ -180,6 +179,6 @@ public class Precursor extends OpMode {
                 break;
         }
 
-         */
+
     }
 }
